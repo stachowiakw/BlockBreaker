@@ -10,6 +10,8 @@ public class Brick : MonoBehaviour {
     public int timesHit;
     private LevelManager LevelManagerInstance;
     bool isBreakable = false;
+    public GameObject SmokeParticleObject;
+    private Color BrickColor;
 
     // Use this for initialization
     void Start () {
@@ -20,6 +22,8 @@ public class Brick : MonoBehaviour {
         }
         timesHit = 0;
         LevelManagerInstance = GameObject.FindObjectOfType<LevelManager>();
+        BrickColor = this.GetComponent<SpriteRenderer>().color;
+        //print(this.name + BrickColor);
 	}
 	
 	// Update is called once per frame
@@ -46,7 +50,12 @@ public class Brick : MonoBehaviour {
     {
         timesHit++;
         maxHits = hitSprites.Length + 1;
-        if (timesHit == maxHits) { AudioSource.PlayClipAtPoint(crackSound, transform.position); Destroy(gameObject); breakableCount--;  }
+        if (timesHit == maxHits) {
+            AudioSource.PlayClipAtPoint(crackSound, transform.position);
+            Destroy(gameObject);
+            breakableCount--;
+            PlayDestroyParticle();
+        }   
         else { LoadSprites(); }
         print("collisionWithBrickMothofoka");
         if (breakableCount == 0) { SimulateWin(); }
@@ -57,5 +66,11 @@ public class Brick : MonoBehaviour {
         this.GetComponent<SpriteRenderer>().sprite = hitSprites[spriteIndex];
     }
     
+    void PlayDestroyParticle()
+    {
+        GameObject SmokePuff = Instantiate(SmokeParticleObject, this.transform.position, Quaternion.identity);
+        var mainSmokePuffPS = SmokePuff.GetComponent<ParticleSystem>().main;
+        mainSmokePuffPS.startColor = BrickColor;
+    }
     
 }

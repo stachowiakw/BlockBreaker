@@ -2,3 +2,7 @@ Temp/
 Library/ShaderCache/4/4b645a20c2cc49adad9d47060ee01940.bin
 Library/ShaderCache/4/4c5bec3ba92e067587d956ba7429bcbe.bin
 Library/
+obj/
+Builds/
+.vs/
+UnityPackageManager/manifest.json
